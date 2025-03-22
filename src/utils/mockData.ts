@@ -1,4 +1,3 @@
-
 export interface OrderItem {
   id: string;
   name: string;
@@ -16,6 +15,7 @@ export interface Order {
   total: number;
   paymentMethod: string;
   status: 'pending' | 'completed' | 'cancelled';
+  paymentOptions: string[];
 }
 
 export const mockOrder: Order = {
@@ -46,10 +46,10 @@ export const mockOrder: Order = {
   tax: 28.80,
   total: 388.76,
   paymentMethod: "Credit Card",
-  status: "pending"
+  status: "pending",
+  paymentOptions: ["Credit Card", "Bank Transfer", "Digital Wallet", "Cash"]
 };
 
-// Converts order data to a string suitable for QR code generation
 export const generateQRData = (order: Order): string => {
   const basicInfo = `ORDER: ${order.id}\nDATE: ${new Date(order.date).toLocaleDateString()}\nAMOUNT: $${order.total.toFixed(2)}`;
   

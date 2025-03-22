@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import QRCodeCard from '@/components/QRCodeCard';
 import OrderSummary from '@/components/OrderSummary';
 import PaymentDetails from '@/components/PaymentDetails';
+import PaymentForm from '@/components/PaymentForm';
 import { mockOrder } from '@/utils/mockData';
 
 const Index = () => {
@@ -18,6 +19,20 @@ const Index = () => {
     
     return () => clearTimeout(timer);
   }, []);
+  
+  const updateCustomerName = (name: string) => {
+    setOrder(prev => ({
+      ...prev,
+      customerName: name
+    }));
+  };
+  
+  const updatePaymentMethod = (method: string) => {
+    setOrder(prev => ({
+      ...prev,
+      paymentMethod: method
+    }));
+  };
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/30">
@@ -41,16 +56,24 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-4 animate-fade-in animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              <div className="lg:col-span-3 animate-fade-in animate-slide-up" style={{ animationDelay: '0.1s' }}>
                 <QRCodeCard order={order} />
               </div>
               
-              <div className="lg:col-span-4 animate-fade-in animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <div className="lg:col-span-3 animate-fade-in animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <OrderSummary order={order} />
               </div>
               
-              <div className="lg:col-span-4 animate-fade-in animate-slide-up" style={{ animationDelay: '0.3s' }}>
+              <div className="lg:col-span-3 animate-fade-in animate-slide-up" style={{ animationDelay: '0.3s' }}>
                 <PaymentDetails order={order} />
+              </div>
+              
+              <div className="lg:col-span-3 animate-fade-in animate-slide-up" style={{ animationDelay: '0.4s' }}>
+                <PaymentForm 
+                  order={order} 
+                  onUpdateCustomerName={updateCustomerName}
+                  onUpdatePaymentMethod={updatePaymentMethod}
+                />
               </div>
             </div>
           </>
