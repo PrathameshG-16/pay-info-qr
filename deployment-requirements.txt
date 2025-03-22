@@ -1,0 +1,29 @@
+
+# Deployment Requirements for PayQR Application
+
+## System Requirements
+- Docker Engine v20.10+
+- Docker Compose v2.0+ (optional, for local development)
+- 1GB RAM minimum
+- 1 CPU core minimum
+
+## Ports
+- Port 80 for HTTP traffic
+
+## Environment Variables (if needed)
+# No environment variables are currently required for this application
+
+## Deployment Instructions
+1. Ensure Docker is installed on your system
+2. Build the Docker image:
+   ```
+   docker build -t payqr-app .
+   ```
+3. Run the container:
+   ```
+   docker run -d -p 80:80 --name payqr-container payqr-app
+   ```
+4. Access the application at http://localhost (or your server IP)
+
+## Health Check
+- The application should respond on the root path '/'
