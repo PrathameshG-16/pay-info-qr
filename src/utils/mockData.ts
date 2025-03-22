@@ -1,3 +1,4 @@
+
 export interface OrderItem {
   id: string;
   name: string;
@@ -51,11 +52,39 @@ export const mockOrder: Order = {
 };
 
 export const generateQRData = (order: Order): string => {
-  const basicInfo = `ORDER: ${order.id}\nDATE: ${new Date(order.date).toLocaleDateString()}\nAMOUNT: $${order.total.toFixed(2)}`;
-  
-  const itemsList = order.items.map(item => 
-    `${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}`
-  ).join('\n');
-  
-  return `${basicInfo}\n\n${itemsList}\n\nSUBTOTAL: $${order.subtotal.toFixed(2)}\nTAX: $${order.tax.toFixed(2)}\nTOTAL: $${order.total.toFixed(2)}`;
+  // Create a structured payment data object that payment apps can parse
+  const paymentData = {
+    // Payment details
+    paymentInfo: {
+      orderId: order.id,
+      merchantName: "PayQR Store",
+      merchantId: "PAYQR-12345",
+      amount: order.total.toFixed(2),
+      currency: "USD",
+      date: new Date(order.date).toLocaleDateString(),
+      paymentMethod: order.paymentMethod,
+      customerName: order.customerName,
+      status: order.status
+    },
+    // Order details
+    orderSummary: {
+      subtotal: order.subtotal.toFixed(2),
+      tax: order.tax.toFixed(2),
+      total: order.total.toFixed(2),
+      items: order.items.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        unitPrice: item.price.toFixed(2),
+        totalPrice: (item.price * item.quantity).toFixed(2)
+      }))
+    },
+    // Payment instructions
+    paymentInstructions: {
+      acceptedMethods: order.paymentOptions,
+      notes: "Payment is due immediately. This QR code expires in 15 minutes."
+    }
+  };
+
+  // Convert the structured data to JSON string that payment apps can parse
+  return JSON.stringify(paymentData);
 };

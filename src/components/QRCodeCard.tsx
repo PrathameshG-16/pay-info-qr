@@ -94,11 +94,16 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({ order, className }) => {
         {isScanned ? "Payment Confirmed" : "Tap to Simulate Scan"}
       </button>
       
-      <p className="mt-4 text-xs text-muted-foreground">
-        {isScanned 
-          ? "Payment has been processed successfully" 
-          : "Scan with your banking app or payment service"}
-      </p>
+      <div className="mt-4 text-xs text-muted-foreground">
+        <p>
+          {isScanned 
+            ? "Payment has been processed successfully" 
+            : "Scan with your banking app or payment service"}
+        </p>
+        <p className="mt-1 text-xs opacity-80">
+          Enhanced QR contains full payment and order details
+        </p>
+      </div>
     </div>
   );
 };
