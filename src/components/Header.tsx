@@ -6,7 +6,7 @@ interface HeaderProps {
   className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ className }) => {
+const Header = ({ className }: HeaderProps) => {
   const [scrolled, setScrolled] = useState(false);
   
   // Change header appearance on scroll
