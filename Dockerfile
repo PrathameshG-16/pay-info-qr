@@ -31,30 +31,30 @@ RUN mkdir -p /var/cache/nginx/client_temp /var/cache/nginx/proxy_temp \
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Create a custom nginx.conf that doesn't use the user directive
-RUN echo 'worker_processes auto;\n\
-error_log /var/log/nginx/error.log warn;\n\
-pid /var/run/nginx.pid;\n\
-events {\n\
-    worker_connections 1024;\n\
-}\n\
-http {\n\
-    include /etc/nginx/mime.types;\n\
-    default_type application/octet-stream;\n\
-    log_format main \'$remote_addr - $remote_user [$time_local] "$request" \'\n\
-                      \'$status $body_bytes_sent "$http_referer" \'\n\
-                      \'"$http_user_agent" "$http_x_forwarded_for"\';\n\
-    access_log /var/log/nginx/access.log main;\n\
-    sendfile on;\n\
-    keepalive_timeout 65;\n\
-    server {\n\
-        listen 80;\n\
-        location / {\n\
-            root /usr/share/nginx/html;\n\
-            index index.html index.htm;\n\
-            try_files $uri $uri/ /index.html;\n\
-        }\n\
-    }\n\
-}' > /etc/nginx/nginx.conf
+RUN echo 'worker_processes auto;' > /etc/nginx/nginx.conf && \
+    echo 'error_log /var/log/nginx/error.log warn;' >> /etc/nginx/nginx.conf && \
+    echo 'pid /var/run/nginx.pid;' >> /etc/nginx/nginx.conf && \
+    echo 'events {' >> /etc/nginx/nginx.conf && \
+    echo '    worker_connections 1024;' >> /etc/nginx/nginx.conf && \
+    echo '}' >> /etc/nginx/nginx.conf && \
+    echo 'http {' >> /etc/nginx/nginx.conf && \
+    echo '    include /etc/nginx/mime.types;' >> /etc/nginx/nginx.conf && \
+    echo '    default_type application/octet-stream;' >> /etc/nginx/nginx.conf && \
+    echo '    log_format main '"'"'$remote_addr - $remote_user [$time_local] "$request" ' >> /etc/nginx/nginx.conf && \
+    echo '                      $status $body_bytes_sent "$http_referer" ' >> /etc/nginx/nginx.conf && \
+    echo '                      "$http_user_agent" "$http_x_forwarded_for"'"'"';' >> /etc/nginx/nginx.conf && \
+    echo '    access_log /var/log/nginx/access.log main;' >> /etc/nginx/nginx.conf && \
+    echo '    sendfile on;' >> /etc/nginx/nginx.conf && \
+    echo '    keepalive_timeout 65;' >> /etc/nginx/nginx.conf && \
+    echo '    server {' >> /etc/nginx/nginx.conf && \
+    echo '        listen 80;' >> /etc/nginx/nginx.conf && \
+    echo '        location / {' >> /etc/nginx/nginx.conf && \
+    echo '            root /usr/share/nginx/html;' >> /etc/nginx/nginx.conf && \
+    echo '            index index.html index.htm;' >> /etc/nginx/nginx.conf && \
+    echo '            try_files $uri $uri/ /index.html;' >> /etc/nginx/nginx.conf && \
+    echo '        }' >> /etc/nginx/nginx.conf && \
+    echo '    }' >> /etc/nginx/nginx.conf && \
+    echo '}' >> /etc/nginx/nginx.conf
 
 # Expose port
 EXPOSE 80
