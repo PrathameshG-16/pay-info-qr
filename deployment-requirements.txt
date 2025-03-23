@@ -25,5 +25,13 @@
    ```
 4. Access the application at http://localhost (or your server IP)
 
+## Troubleshooting
+- If you encounter permission issues with Nginx, the Dockerfile includes fixes for common permission problems
+- For persistent permission issues, you can run the container with additional privileges:
+  ```
+  docker run -d -p 80:80 --name payqr-container --user root payqr-app
+  ```
+  Note: Running as root is not recommended for production environments
+
 ## Health Check
 - The application should respond on the root path '/'
