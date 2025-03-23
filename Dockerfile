@@ -30,7 +30,7 @@ RUN mkdir -p /var/cache/nginx/client_temp /var/cache/nginx/proxy_temp \
 # Copy built assets from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Create a custom nginx.conf that doesn't use the user directive
+# Create a custom nginx.conf that doesn't use the user directive and uses port 8080 instead of 80
 RUN echo 'worker_processes auto;' > /etc/nginx/nginx.conf && \
     echo 'error_log /var/log/nginx/error.log warn;' >> /etc/nginx/nginx.conf && \
     echo 'pid /var/run/nginx.pid;' >> /etc/nginx/nginx.conf && \
@@ -47,7 +47,7 @@ RUN echo 'worker_processes auto;' > /etc/nginx/nginx.conf && \
     echo '    sendfile on;' >> /etc/nginx/nginx.conf && \
     echo '    keepalive_timeout 65;' >> /etc/nginx/nginx.conf && \
     echo '    server {' >> /etc/nginx/nginx.conf && \
-    echo '        listen 80;' >> /etc/nginx/nginx.conf && \
+    echo '        listen 8080;' >> /etc/nginx/nginx.conf && \
     echo '        location / {' >> /etc/nginx/nginx.conf && \
     echo '            root /usr/share/nginx/html;' >> /etc/nginx/nginx.conf && \
     echo '            index index.html index.htm;' >> /etc/nginx/nginx.conf && \
@@ -56,8 +56,8 @@ RUN echo 'worker_processes auto;' > /etc/nginx/nginx.conf && \
     echo '    }' >> /etc/nginx/nginx.conf && \
     echo '}' >> /etc/nginx/nginx.conf
 
-# Expose port
-EXPOSE 80
+# Expose port 8080 instead of 80
+EXPOSE 8080
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]

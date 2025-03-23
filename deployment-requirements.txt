@@ -8,7 +8,7 @@
 - 1 CPU core minimum
 
 ## Ports
-- Port 80 for HTTP traffic
+- Port 8080 for HTTP traffic (non-privileged port)
 
 ## Environment Variables (if needed)
 # No environment variables are currently required for this application
@@ -21,15 +21,15 @@
    ```
 3. Run the container:
    ```
-   docker run -d -p 80:80 --name payqr-container payqr-app
+   docker run -d -p 8080:8080 --name payqr-container payqr-app
    ```
-4. Access the application at http://localhost (or your server IP)
+4. Access the application at http://localhost:8080 (or your server IP:8080)
 
 ## Troubleshooting
 - If you encounter permission issues with Nginx, the Dockerfile includes fixes for common permission problems
 - For persistent permission issues, you can run the container with additional privileges:
   ```
-  docker run -d -p 80:80 --name payqr-container --user root payqr-app
+  docker run -d -p 8080:8080 --name payqr-container --user root payqr-app
   ```
   Note: Running as root is not recommended for production environments
 
